@@ -240,7 +240,7 @@ export const getAdvanceSchema = (itemNumber = 6): FormSchema[] => {
 };
 export function getFormConfig(): Partial<FormProps> {
   return {
-    labelWidth: 100,
+    // labelWidth: '',
     schemas: [
       ...getAdvanceSchema(5),
       {

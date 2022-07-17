@@ -1,3 +1,11 @@
+/*
+ * @Author: ypc
+ * @Date: 2022-07-17 13:29:14
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-17 19:27:14
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\components\Form\src\hooks\useLabelWidth.ts
+ */
 import type { Ref } from 'vue';
 import { computed, unref } from 'vue';
 import type { FormProps, FormSchema } from '../types/form';
@@ -31,10 +39,16 @@ export function useItemLabelWidth(schemaItemRef: Ref<FormSchema>, propsRef: Ref<
       width = isNumber(width) ? `${width}px` : width;
     }
 
+    const labelCol_width = width === 'searchForm' ? 'auto' : width;
+    const wrapperCol_style =
+      width === 'searchForm'
+        ? { flex: 1, 'margin-right': '20px' }
+        : { width: layout === 'vertical' ? '100%' : `calc(100% - ${width})` };
+
     return {
-      labelCol: { style: { width }, ...col },
+      labelCol: { style: { width: labelCol_width }, ...col },
       wrapperCol: {
-        style: { width: layout === 'vertical' ? '100%' : `calc(100% - ${width})` },
+        style: wrapperCol_style,
         ...wrapCol,
       },
     };

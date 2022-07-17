@@ -2,6 +2,7 @@
   <div ref="wrapRef" :class="getWrapperClass">
     <BasicForm
       ref="formRef"
+      labelWidth="searchForm"
       submitOnReset
       v-bind="getFormProps"
       v-if="getBindValues.useSearchForm"
