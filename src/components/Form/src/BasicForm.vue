@@ -58,7 +58,7 @@
   import { createFormContext } from './hooks/useFormContext';
   import { useAutoFocus } from './hooks/useAutoFocus';
   import { useModalContext } from '/@/components/Modal';
-  import { useDebounceFn } from '@vueuse/core';
+  import { useDebounceFn, useThrottleFn } from '@vueuse/core';
 
   import { basicProps } from './props';
   import { useDesign } from '/@/hooks/web/useDesign';
@@ -189,8 +189,8 @@
       });
 
       createFormContext({
-        resetAction: resetFields,
-        submitAction: handleSubmit,
+        resetAction: useThrottleFn(resetFields, 1000, false, true),
+        submitAction: useThrottleFn(handleSubmit, 1000, false, true),
       });
 
       watch(
