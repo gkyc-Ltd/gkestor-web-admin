@@ -74,3 +74,63 @@
     }
   }
 }
+
+//表格头部样式
+.ant-table-header {
+  // margin-bottom: 0 !important;
+  overflow-x: hidden;
+}
+
+.ant-table-column-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: @text-color-base;
+}
+
+//表格行高
+.ant-table-tbody > tr > td {
+  height: 50px !important;
+  padding: 5.5px !important;
+  // border-bottom: none !important;
+}
+//表格选中背景色
+.ant-table-thead
+  > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
+  > td,
+.ant-table-tbody
+  > tr.ant-table-row-hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
+  > td,
+.ant-table-thead > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td,
+.ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+  //@primary-color
+  background: #fafafa;
+}
+
+// 内边框
+.ant-table-bordered .ant-table-thead > tr > th:not(:last-of-type),
+.ant-table-bordered .ant-table-tbody > tr > td:not(:last-of-type) {
+  border-right: none !important;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #fff;
+}
+
+.ant-table-tbody tr:first-of-type {
+  td {
+    border-top: 1px solid #f0f0f0;
+  }
+}
+
+.ant-table-wrapper {
+  padding-top: 0 !important;
+}
+
+.ant-table-bordered.ant-table-fixed-header
+  .ant-table-scroll
+  .ant-table-header.ant-table-hide-scrollbar
+  .ant-table-thead
+  > tr:only-child
+  > th:last-child {
+  border-right-color: inherit !important;
+}
