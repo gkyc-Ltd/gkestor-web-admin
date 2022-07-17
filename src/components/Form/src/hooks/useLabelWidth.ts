@@ -1,27 +1,30 @@
 /*
  * @Author: ypc
- * @Date: 2022-07-17 13:29:14
+ * @Date: 2022-06-01 09:43:49
  * @LastEditors: ypc
- * @LastEditTime: 2022-07-17 19:27:14
+ * @LastEditTime: 2022-07-17 21:57:50
  * @Description: file content
  * @FilePath: \gkestor-web-admin\src\components\Form\src\hooks\useLabelWidth.ts
  */
 import type { Ref } from 'vue';
-import { computed, unref } from 'vue';
 import type { FormProps, FormSchema } from '../types/form';
+
+import { computed, unref } from 'vue';
 import { isNumber } from '/@/utils/is';
+import { getTextWidth } from '../helper';
 
 export function useItemLabelWidth(schemaItemRef: Ref<FormSchema>, propsRef: Ref<FormProps>) {
   return computed(() => {
     const schemaItem = unref(schemaItemRef);
     const { labelCol = {}, wrapperCol = {} } = schemaItem.itemProps || {};
-    const { labelWidth, disabledLabelWidth } = schemaItem;
+    const { labelWidth, disabledLabelWidth, label } = schemaItem;
+    // component, label;
+    // console.log('++++++++++++++++++++++++++', labelWidth);
 
     const {
       labelWidth: globalLabelWidth,
       labelCol: globalLabelCol,
       wrapperCol: globWrapperCol,
-      layout,
     } = unref(propsRef);
 
     // If labelWidth is set globally, all items setting
@@ -39,18 +42,28 @@ export function useItemLabelWidth(schemaItemRef: Ref<FormSchema>, propsRef: Ref<
       width = isNumber(width) ? `${width}px` : width;
     }
 
-    const labelCol_width = width === 'searchForm' ? 'auto' : width;
-    const wrapperCol_style =
-      width === 'searchForm'
-        ? { flex: 1, 'margin-right': '20px' }
-        : { width: layout === 'vertical' ? '100%' : `calc(100% - ${width})` };
+    let wrapperCol_width = width;
+    if (width !== 'auto') {
+      if (width === 'searchForm') {
+        wrapperCol_width = getTextWidth(label + ': ', '14px Arial') + 'px';
+      } else {
+        wrapperCol_width = width || '110px';
+      }
+    }
 
     return {
-      labelCol: { style: { width: labelCol_width }, ...col },
       wrapperCol: {
-        style: wrapperCol_style,
+        style: {
+          width: width === 'auto' ? 'auto' : `calc(100% - ${wrapperCol_width})`,
+        },
         ...wrapCol,
       },
+      labelCol: {
+        style: { width: width === 'auto' ? 'auto' : wrapperCol_width },
+        flex: 'none',
+        ...col,
+      },
+      globalLabelWidth: width,
     };
   });
 }

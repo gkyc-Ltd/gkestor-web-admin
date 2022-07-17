@@ -1,3 +1,11 @@
+/*
+ * @Author: ypc
+ * @Date: 2022-07-17 13:29:14
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-17 21:57:45
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\components\Form\src\helper.ts
+ */
 import type { ValidationRule } from 'ant-design-vue/lib/form/Form';
 import type { ComponentType } from './types/index';
 import { useI18n } from '/@/hooks/web/useI18n';
@@ -5,7 +13,22 @@ import { dateUtil } from '/@/utils/dateUtil';
 import { isNumber, isObject } from '/@/utils/is';
 
 const { t } = useI18n();
-
+/**
+ * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
+ *
+ * @param {String} text The text to be rendered.
+ * @param {String} font The css font descriptor that text is to be rendered with (e.g. "bold 14px verdana").
+ *
+ * @see https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
+ */
+export function getTextWidth(text, font) {
+  // re-use canvas object for better performance
+  const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement('canvas'));
+  const context = canvas.getContext('2d');
+  context.font = font;
+  const metrics = context.measureText(text);
+  return metrics.width;
+}
 /**
  * @description: 生成placeholder
  */

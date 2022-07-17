@@ -54,7 +54,7 @@
       };
 
       const itemLabelWidthProp = useItemLabelWidth(schema, formProps);
-
+      const { globalLabelWidth } = unref(itemLabelWidthProp);
       const getValues = computed(() => {
         const { allDefaultValues, formModel, schema } = props;
         const { mergeDynamicData } = props.formProps;
@@ -339,7 +339,6 @@
 
           const showSuffix = !!suffix;
           const getSuffix = isFunction(suffix) ? suffix(unref(getValues)) : suffix;
-
           return (
             <Form.Item
               name={field}
@@ -349,10 +348,14 @@
               label={renderLabelHelpMessage()}
               rules={handleRules()}
               labelCol={labelCol}
+              style={{
+                marginRight: globalLabelWidth === 'searchForm' ? '20px' : '',
+                flexwrap: globalLabelWidth === 'searchForm' ? 'nowrap' : '',
+              }}
               wrapperCol={wrapperCol}
             >
-              <div style="display:flex">
-                <div style="flex:1;">{getContent()}</div>
+              <div style="display:flex;width:100%;">
+                <div style="flex:1;width:100%;">{getContent()}</div>
                 {showSuffix && <span class="suffix">{getSuffix}</span>}
               </div>
             </Form.Item>
@@ -367,7 +370,12 @@
         }
 
         const { baseColProps = {} } = props.formProps;
-        const realColProps = { ...baseColProps, ...colProps };
+
+        const realColProps = {
+          ...baseColProps,
+          ...colProps,
+        };
+
         const { isIfShow, isShow } = getShow();
         const values = unref(getValues);
 

@@ -230,10 +230,10 @@ export const getAdvanceSchema = (itemNumber = 6): FormSchema[] => {
       field: `field${index}`,
       label: `字段${index}`,
       component: 'Input',
-      colProps: {
-        xl: 12,
-        xxl: 8,
-      },
+      // colProps: {
+      //   xl: 12,
+      //   xxl: 8,
+      // },
     });
   }
   return arr;
@@ -241,18 +241,25 @@ export const getAdvanceSchema = (itemNumber = 6): FormSchema[] => {
 export function getFormConfig(): Partial<FormProps> {
   return {
     // labelWidth: '',
+    colon: true,
+    baseColProps: {
+      xxl: 4,
+      xl: 8,
+      lg: 12,
+      md: 24,
+    },
     schemas: [
-      ...getAdvanceSchema(5),
-      {
-        field: `field11`,
-        label: `Slot示例`,
-        component: 'Select',
-        slot: 'custom',
-        colProps: {
-          xl: 12,
-          xxl: 8,
-        },
-      },
+      ...getAdvanceSchema(4),
+      // {
+      //   field: `field11`,
+      //   label: `Slot示例`,
+      //   component: 'Select',
+      //   slot: 'custom',
+      //   colProps: {
+      //     xl: 12,
+      //     xxl: 8,
+      //   },
+      // },
     ],
   };
 }

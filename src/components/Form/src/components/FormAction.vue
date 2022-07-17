@@ -4,8 +4,19 @@
       <FormItem>
         <slot name="resetBefore"></slot>
         <Button
+          type="primary"
+          class="!px-2.5"
+          preIcon="search|svg"
+          v-bind="getSubmitBtnOptions"
+          @click="submitAction"
+          v-if="showSubmitButton"
+        >
+          {{ getSubmitBtnOptions.text }}
+        </Button>
+        <Button
           type="default"
-          class="mr-2"
+          class="ml-2 !px-2.5"
+          preIcon="reset|svg"
           v-bind="getResetBtnOptions"
           @click="resetAction"
           v-if="showResetButton"
@@ -13,16 +24,6 @@
           {{ getResetBtnOptions.text }}
         </Button>
         <slot name="submitBefore"></slot>
-
-        <Button
-          type="primary"
-          class="mr-2"
-          v-bind="getSubmitBtnOptions"
-          @click="submitAction"
-          v-if="showSubmitButton"
-        >
-          {{ getSubmitBtnOptions.text }}
-        </Button>
 
         <slot name="advanceBefore"></slot>
         <Button
@@ -49,7 +50,7 @@
   import { useFormContext } from '../hooks/useFormContext';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { propTypes } from '/@/utils/propTypes';
-
+  import { omit } from 'lodash-es';
   type ButtonOptions = Partial<ButtonProps> & { text: string };
 
   export default defineComponent({
@@ -101,20 +102,26 @@
       });
 
       const getResetBtnOptions = computed((): ButtonOptions => {
-        return Object.assign(
-          {
-            text: t('common.resetText'),
-          },
-          props.resetButtonOptions,
+        return omit(
+          Object.assign(
+            {
+              text: t('common.resetText'),
+            },
+            props.resetButtonOptions,
+          ),
+          'loading',
         );
       });
 
       const getSubmitBtnOptions = computed(() => {
-        return Object.assign(
-          {
-            text: t('common.queryText'),
-          },
-          props.submitButtonOptions,
+        return omit(
+          Object.assign(
+            {
+              text: t('common.searchText'),
+            },
+            props.submitButtonOptions,
+          ),
+          'loading',
         );
       });
 
