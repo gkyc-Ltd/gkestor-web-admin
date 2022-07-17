@@ -1,15 +1,22 @@
+/*
+ * @Author: ypc
+ * @Date: 2022-07-17 13:29:14
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-18 07:00:53
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\stylelint.config.js
+ */
 module.exports = {
   root: true,
   plugins: ['stylelint-order'],
-  extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
   customSyntax: 'postcss-html',
+  extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
   rules: {
-    'function-no-unknown': null,
     'selector-class-pattern': null,
     'selector-pseudo-class-no-unknown': [
       true,
       {
-        ignorePseudoClasses: ['global'],
+        ignorePseudoClasses: ['global', 'deep'],
       },
     ],
     'selector-pseudo-element-no-unknown': [
@@ -36,7 +43,6 @@ module.exports = {
       },
     ],
     'no-empty-source': null,
-    'string-quotes': null,
     'named-grid-areas-no-invalid': null,
     'unicode-bom': 'never',
     'no-descending-specificity': null,
@@ -74,7 +80,7 @@ module.exports = {
   overrides: [
     {
       files: ['*.vue', '**/*.vue', '*.html', '**/*.html'],
-      extends: ['stylelint-config-recommended'],
+      extends: ['stylelint-config-recommended', 'stylelint-config-html'],
       rules: {
         'keyframes-name-pattern': null,
         'selector-pseudo-class-no-unknown': [
@@ -90,11 +96,6 @@ module.exports = {
           },
         ],
       },
-    },
-    {
-      files: ['*.less', '**/*.less'],
-      customSyntax: 'postcss-less',
-      extends: ['stylelint-config-standard', 'stylelint-config-recommended-vue'],
     },
   ],
 };
