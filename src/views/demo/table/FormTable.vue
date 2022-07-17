@@ -1,3 +1,11 @@
+<!--
+ * @Author: ypc
+ * @Date: 2022-07-17 13:29:14
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-17 20:56:35
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\views\demo\table\FormTable.vue
+-->
 <template>
   <BasicTable
     @register="registerTable"
@@ -38,6 +46,15 @@
         title: '开启搜索区域',
         api: demoListApi,
         columns: getBasicColumns(),
+        beforeFetch: (params) => {
+          if (params.order && params.field) {
+            return {
+              ...params,
+              orderByField: `${params.field}#${params.order === 'ascend' ? 'ASC' : 'DESC'}`,
+            };
+          }
+          return params;
+        },
         useSearchForm: true,
         formConfig: getFormConfig(),
         showTableSetting: true,

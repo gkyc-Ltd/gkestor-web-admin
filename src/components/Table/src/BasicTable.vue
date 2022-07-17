@@ -3,6 +3,7 @@
     <BasicForm
       ref="formRef"
       labelWidth="searchForm"
+      submitOnChange
       submitOnReset
       v-bind="getFormProps"
       v-if="getBindValues.useSearchForm"
