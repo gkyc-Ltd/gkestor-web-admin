@@ -1,9 +1,19 @@
+/*
+ * @Author: ypc
+ * @Date: 2022-07-18 11:13:00
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-18 11:27:59
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\utils\http\axios\checkStatus.ts
+ */
 import type { ErrorMessageMode } from '/#/axios';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { useI18n } from '/@/hooks/web/useI18n';
 // import router from '/@/router';
 // import { PageEnum } from '/@/enums/pageEnum';
 import { useUserStoreWithOut } from '/@/store/modules/user';
+import { useHttpStoreWithOut } from '/@/store/modules/http';
+
 import projectSetting from '/@/settings/projectSetting';
 import { SessionTimeoutProcessingEnum } from '/@/enums/appEnum';
 
@@ -18,6 +28,7 @@ export function checkStatus(
 ): void {
   const { t } = useI18n();
   const userStore = useUserStoreWithOut();
+  const httpStore = useHttpStoreWithOut();
   let errMessage = '';
 
   switch (status) {
@@ -49,6 +60,9 @@ export function checkStatus(
     case 408:
       errMessage = t('sys.api.errMsg408');
       break;
+    case 429:
+      errMessage = t('sys.api.errMsg429');
+      break;
     case 500:
       errMessage = t('sys.api.errMsg500');
       break;
@@ -70,11 +84,14 @@ export function checkStatus(
     default:
   }
 
-  if (errMessage) {
+  if (errMessage && !httpStore.getHttpInfo.has401) {
     if (errorMessageMode === 'modal') {
       createErrorModal({ title: t('sys.api.errorTip'), content: errMessage });
     } else if (errorMessageMode === 'message') {
       error({ content: errMessage, key: `global_error_message_status_${status}` });
+      if (status == 401) {
+        httpStore.setHttpInfo({ has401: true });
+      }
     }
   }
 }

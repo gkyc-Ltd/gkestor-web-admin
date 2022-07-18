@@ -4,7 +4,7 @@ import type { CreateAxiosOptions } from './axiosTransform';
 import axios from 'axios';
 import qs from 'qs';
 import { AxiosCanceler } from './axiosCancel';
-import { isFunction } from '/@/utils/is';
+import { isFunction, isObject } from '/@/utils/is';
 import { cloneDeep } from 'lodash-es';
 import { ContentTypeEnum } from '/@/enums/httpEnum';
 import { RequestEnum } from '/@/enums/httpEnum';
@@ -61,7 +61,7 @@ export class VAxios {
   }
 
   /**
-   * @description: Interceptor configuration 拦截器配置
+   * @description: Interceptor configuration
    */
   private setupInterceptors() {
     const transform = this.getTransform();
@@ -80,8 +80,10 @@ export class VAxios {
     // Request interceptor configuration processing
     this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
       // If cancel repeat request is turned on, then cancel repeat request is prohibited
-      // @ts-ignore
-      const { ignoreCancelToken } = config.requestOptions;
+      const {
+        headers: { ignoreCancelToken },
+      } = config;
+
       const ignoreCancel =
         ignoreCancelToken !== undefined
           ? ignoreCancelToken
@@ -111,10 +113,7 @@ export class VAxios {
     // Response result interceptor error capture
     responseInterceptorsCatch &&
       isFunction(responseInterceptorsCatch) &&
-      this.axiosInstance.interceptors.response.use(undefined, (error) => {
-        // @ts-ignore
-        return responseInterceptorsCatch(this.axiosInstance, error);
-      });
+      this.axiosInstance.interceptors.response.use(undefined, responseInterceptorsCatch);
   }
 
   /**
@@ -150,9 +149,142 @@ export class VAxios {
       data: formData,
       headers: {
         'Content-type': ContentTypeEnum.FORM_DATA,
-        // @ts-ignore
         ignoreCancelToken: true,
       },
+    });
+  }
+
+  /**
+   * @description:  File Upload
+   */
+  myUploadFile<T = any>(config: AxiosRequestConfig, params) {
+    let conf: CreateAxiosOptions = cloneDeep(config);
+    const transform = this.getTransform();
+
+    const { requestOptions } = this.options;
+
+    const opt: RequestOptions = Object.assign({}, requestOptions);
+
+    const { beforeRequestHook, requestCatchHook, transformRequestHook } = transform || {};
+    if (beforeRequestHook && isFunction(beforeRequestHook)) {
+      conf = beforeRequestHook(conf, opt);
+    }
+    conf.requestOptions = opt;
+
+    conf = this.supportFormData(conf);
+    conf.timeout = conf.timeout ?? 1000 * 3 * 60;
+    const formData = new window.FormData();
+
+    if (params.data) {
+      Object.keys(params.data).forEach((key) => {
+        if (!params.data) return;
+        const value = params.data[key];
+        console.log(value);
+        // 数组处理
+        if (Array.isArray(value)) {
+          // const fileField = params.fileField ?? 'files';
+          // if (key === fileField) {
+          //   value.forEach((item) => {
+          //     formData.append(`${item.field ?? key}`, item.file, item.name);
+          //   });
+          // } else {
+          //   value.forEach((item) => {
+          //     formData.append(`${key}`, item);
+          //   });
+          // }
+          if (value.every((item) => item instanceof File)) {
+            value.forEach((item) => {
+              formData.append(`${item.field ?? key}`, item.file ?? item, item.name);
+            });
+          } else {
+            if (value.every((item) => isObject(item))) {
+              // 对象数组
+              value.forEach((item, index) => {
+                Object.keys(item).forEach((_key) => {
+                  formData.append(`${key}[${index}].${_key}`, item[_key]);
+                });
+              });
+            } else {
+              // 其他数组
+              value.forEach((item, index) => {
+                formData.append(`${key}[${index}]`, item);
+              });
+            }
+          }
+        } else {
+          formData.append(key, params.data[key]);
+        }
+      });
+      console.log(params.data.files);
+      // formData.append(params.data.files || 'file', params.data.files, params.data.files.filename);
+    }
+    return new Promise((resolve, reject) => {
+      this.axiosInstance
+        .request<any, AxiosResponse<Result>>({
+          method: 'POST',
+          ...conf,
+          data: formData,
+          headers: {
+            'Content-type': ContentTypeEnum.FORM_DATA,
+            // ignoreCancelToken: true,
+          },
+        })
+        .then((res: AxiosResponse<Result>) => {
+          if (transformRequestHook && isFunction(transformRequestHook)) {
+            try {
+              const ret = transformRequestHook(res, opt);
+              resolve(ret);
+            } catch (err) {
+              reject(err || new Error('request error!'));
+            }
+            return;
+          }
+          resolve(res as unknown as Promise<T>);
+        })
+        .catch((e: Error) => {
+          if (requestCatchHook && isFunction(requestCatchHook)) {
+            reject(requestCatchHook(e, opt));
+            return;
+          }
+          reject(e);
+        });
+    });
+  }
+
+  /**
+   * @description:Minio  File Upload
+   */
+  mioUploadFile<T = any>(config: AxiosRequestConfig, params) {
+    let conf: CreateAxiosOptions = cloneDeep(config);
+    const transform = this.getTransform();
+    const { requestOptions } = this.options;
+    const opt: RequestOptions = Object.assign({}, requestOptions);
+    const { beforeRequestHook, requestCatchHook } = transform || {};
+    if (beforeRequestHook && isFunction(beforeRequestHook)) {
+      conf = beforeRequestHook(conf, opt);
+    }
+    conf.requestOptions = opt;
+    conf.timeout = conf.timeout ?? 0;
+    return new Promise((resolve, reject) => {
+      this.axiosInstance
+        .request<any, AxiosResponse<Result>>({
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/octet-stream',
+          },
+          ...conf,
+          data: params.data,
+        })
+        .then((res: AxiosResponse<Result>) => {
+          resolve(res as unknown as Promise<T>);
+        })
+        .catch((e: Error) => {
+          if (requestCatchHook && isFunction(requestCatchHook)) {
+            reject(requestCatchHook(e, opt));
+            return;
+          }
+          reject(e);
+        });
     });
   }
 
@@ -160,7 +292,7 @@ export class VAxios {
   supportFormData(config: AxiosRequestConfig) {
     const headers = config.headers || this.options.headers;
     const contentType = headers?.['Content-Type'] || headers?.['content-type'];
-
+    debugger;
     if (
       contentType !== ContentTypeEnum.FORM_URLENCODED ||
       !Reflect.has(config, 'data') ||
@@ -191,7 +323,12 @@ export class VAxios {
     return this.request({ ...config, method: 'DELETE' }, options);
   }
 
+  patch<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+    return this.request({ ...config, method: 'PATCH' }, options);
+  }
+
   request<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
+    debugger;
     let conf: CreateAxiosOptions = cloneDeep(config);
     const transform = this.getTransform();
 
@@ -199,7 +336,7 @@ export class VAxios {
 
     const opt: RequestOptions = Object.assign({}, requestOptions, options);
 
-    const { beforeRequestHook, requestCatchHook, transformResponseHook } = transform || {};
+    const { beforeRequestHook, requestCatchHook, transformRequestHook } = transform || {};
     if (beforeRequestHook && isFunction(beforeRequestHook)) {
       conf = beforeRequestHook(conf, opt);
     }
@@ -211,9 +348,9 @@ export class VAxios {
       this.axiosInstance
         .request<any, AxiosResponse<Result>>(conf)
         .then((res: AxiosResponse<Result>) => {
-          if (transformResponseHook && isFunction(transformResponseHook)) {
+          if (transformRequestHook && isFunction(transformRequestHook)) {
             try {
-              const ret = transformResponseHook(res, opt);
+              const ret = transformRequestHook(res, opt);
               resolve(ret);
             } catch (err) {
               reject(err || new Error('request error!'));

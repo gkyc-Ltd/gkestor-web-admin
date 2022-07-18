@@ -1,13 +1,23 @@
+/*
+ * @Author: ypc
+ * @Date: 2022-06-24 10:37:08
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-18 11:28:22
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\utils\http\axios\axiosTransform.ts
+ */
 /**
  * Data processing class, can be configured according to the project
  */
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
-import type { RequestOptions, Result } from '/#/axios';
+import type { LoginResult, RequestOptions, Result } from '/#/axios';
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
   authenticationScheme?: string;
   transform?: AxiosTransform;
   requestOptions?: RequestOptions;
+  timeout?: number;
+  headers?: Recordable;
 }
 
 export abstract class AxiosTransform {
@@ -18,9 +28,9 @@ export abstract class AxiosTransform {
   beforeRequestHook?: (config: AxiosRequestConfig, options: RequestOptions) => AxiosRequestConfig;
 
   /**
-   * @description: 处理响应数据
+   * @description: Request successfully processed
    */
-  transformResponseHook?: (res: AxiosResponse<Result>, options: RequestOptions) => any;
+  transformRequestHook?: (res: AxiosResponse<Result | LoginResult>, options: RequestOptions) => any;
 
   /**
    * @description: 请求失败处理
@@ -48,5 +58,5 @@ export abstract class AxiosTransform {
   /**
    * @description: 请求之后的拦截器错误处理
    */
-  responseInterceptorsCatch?: (axiosInstance: AxiosResponse, error: Error) => void;
+  responseInterceptorsCatch?: (error: Error) => void;
 }

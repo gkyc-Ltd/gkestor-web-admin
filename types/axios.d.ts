@@ -1,6 +1,16 @@
+/*
+ * @Author: ypc
+ * @Date: 2022-07-18 11:13:00
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-18 11:38:14
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\types\axios.d.ts
+ */
 export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
 
 export interface RequestOptions {
+  // Whether to show a notice
+  isNotice?: boolean;
   // Splicing request parameters to url
   joinParamsToUrl?: boolean;
   // Format request parameter time
@@ -35,8 +45,20 @@ export interface RetryRequest {
 export interface Result<T = any> {
   code: number;
   type: 'success' | 'error' | 'warning';
-  message: string;
-  result: T;
+  msg: string;
+  data: T;
+  succ: boolean;
+}
+
+export interface LoginResult<T = any> {
+  succ?: boolean;
+  msg?: string;
+  code?: string;
+  ts?: number;
+  data: T;
+  access_token?: string;
+  refresh_token?: string;
+  expires_in?: number;
 }
 
 // multipart/form-data: upload file

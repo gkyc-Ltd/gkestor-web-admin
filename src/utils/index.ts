@@ -1,9 +1,17 @@
+/*
+ * @Author: ypc
+ * @Date: 2022-07-18 11:13:00
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-18 11:50:18
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\utils\index.ts
+ */
 import type { RouteLocationNormalized, RouteRecordNormalized } from 'vue-router';
 import type { App, Plugin } from 'vue';
 
 import { unref } from 'vue';
 import { isObject } from '/@/utils/is';
-
+import { cloneDeep } from 'lodash-es';
 export const noop = () => {};
 
 /**
@@ -32,8 +40,9 @@ export function setObjToUrlParams(baseUrl: string, obj: any): string {
   return /\?$/.test(baseUrl) ? baseUrl + parameters : baseUrl.replace(/\/?$/, '?') + parameters;
 }
 
-// 深度合并
 export function deepMerge<T = any>(src: any = {}, target: any = {}): T {
+  src = cloneDeep(src);
+  target = cloneDeep(target);
   let key: string;
   for (key in target) {
     src[key] = isObject(src[key]) ? deepMerge(src[key], target[key]) : (src[key] = target[key]);
