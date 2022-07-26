@@ -1,3 +1,11 @@
+<!--
+ * @Author: ypc
+ * @Date: 2022-07-18 11:13:00
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-26 17:12:41
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\components\Custom\Empty\index.vue
+-->
 <template>
   <Empty :image="simpleImage" />
 </template>
@@ -5,7 +13,7 @@
   import { defineComponent } from 'vue';
   import { Empty } from 'ant-design-vue';
   export default defineComponent({
-    name: 'GkestorEmpty',
+    name: 'AEmpty',
     components: { Empty },
     setup() {
       return {
