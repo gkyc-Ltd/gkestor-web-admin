@@ -1,3 +1,11 @@
+/*
+ * @Author: ypc
+ * @Date: 2022-07-18 11:13:00
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-26 15:23:31
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\windi.config.ts
+ */
 import { defineConfig } from 'vite-plugin-windicss';
 import { primaryColor } from './build/config/themeConfig';
 
@@ -10,14 +18,31 @@ export default defineConfig({
         '-1': '-1',
       },
       colors: {
-        primary: primaryColor,
+        hh: 'var(--header-bg-color)',
+        primary: primaryColor, // 全局主色
+        link: 'var(--link-color)', // 链接色
+        success: 'var(--success-color)', // 成功色
+        warning: 'var(--warning-color)', // 警告色
+        error: '#f5222d', // 错误色
+        heading: 'rgba(0, 0, 0, 0.85)', // 标题色
+        text: {
+          first: 'rgba(0, 0, 0, 0.65)',
+          secondary: 'rgba(0, 0, 0, 0.45)', // 次文本色
+        },
+        disabled: 'rgba(0, 0, 0, 0.25)', // 失效色
+        border: '#d9d9d9', // 边框色
+        // font-size-base: '14px',// 主字号
+        // border-radius-base: '4px', // 组件/浮层圆角
+        // box-shadow-base: '0 2px 8px rgba(0, 0, 0, 0.15)',// 浮层阴影
       },
       screens: {
         sm: '576px',
         md: '768px',
         lg: '992px',
-        xl: '1200px',
-        '2xl': '1600px',
+        xl: '1200px', //1280 * 720： 老式电脑的屏幕，目前很少见到，1366 * 768 ： 普通液晶显示器
+        '2xl': '1600px', //1920 * 1080： 高清液晶显示器
+        '3xl': '2000px', //2560 * 1440： 2K高清显示器
+        '4xl': '2600px', //3840 * 2160： 4K高清显示器
       },
     },
   },
