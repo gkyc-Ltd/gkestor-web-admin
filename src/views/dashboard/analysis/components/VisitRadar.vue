@@ -1,5 +1,13 @@
+<!--
+ * @Author: ypc
+ * @Date: 2022-07-18 11:13:00
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-25 15:51:50
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\views\dashboard\analysis\components\VisitRadar.vue
+-->
 <template>
-  <Card title="转化率" :loading="loading">
+  <Card title="转化率" :loading="loading" :bodyStyle="bodyStyle" class="!min-h-80">
     <div ref="chartRef" :style="{ width, height }"></div>
   </Card>
 </template>
@@ -7,7 +15,7 @@
   import { Ref, ref, watch } from 'vue';
   import { Card } from 'ant-design-vue';
   import { useECharts } from '/@/hooks/web/useECharts';
-
+  const bodyStyle = ref({ overflow: 'hidden', height: 'calc(100% - 58px)' });
   const props = defineProps({
     loading: Boolean,
     width: {
@@ -16,7 +24,7 @@
     },
     height: {
       type: String as PropType<string>,
-      default: '300px',
+      default: '100%',
     },
   });
   const chartRef = ref<HTMLDivElement | null>(null);
