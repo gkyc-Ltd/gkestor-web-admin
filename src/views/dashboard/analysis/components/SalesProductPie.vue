@@ -1,8 +1,15 @@
+<!--
+ * @Author: ypc
+ * @Date: 2022-07-18 11:13:00
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-29 15:12:50
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\views\dashboard\analysis\components\SalesProductPie.vue
+-->
 <template>
-  <Card title="成交占比" :loading="loading">
-    <div ref="chartRef" :style="{ width, height }"></div>
-  </Card>
-</template>
+  <Card v-badge="'#0077A9'" title="成交占比" :loading="loading">
+    <BasicForm /> <div class="w-5 h-5 border-dark-900 sb"> </div></Card
+></template>
 <script lang="ts" setup>
   import { Ref, ref, watch } from 'vue';
   import { Card } from 'ant-design-vue';
@@ -19,7 +26,6 @@
       default: '300px',
     },
   });
-
   const chartRef = ref<HTMLDivElement | null>(null);
   const { setOptions } = useECharts(chartRef as Ref<HTMLDivElement>);
 
@@ -62,3 +68,8 @@
     { immediate: true },
   );
 </script>
+<style lang="less">
+  .sb {
+    background-color: @error-color;
+  }
+</style>

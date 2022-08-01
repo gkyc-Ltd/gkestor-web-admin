@@ -2,12 +2,11 @@
  * @Author: ypc
  * @Date: 2022-07-18 11:13:00
  * @LastEditors: ypc
- * @LastEditTime: 2022-07-26 15:23:31
+ * @LastEditTime: 2022-08-01 17:06:05
  * @Description: file content
  * @FilePath: \gkestor-web-admin\windi.config.ts
  */
 import { defineConfig } from 'vite-plugin-windicss';
-import { primaryColor } from './build/config/themeConfig';
 
 export default defineConfig({
   darkMode: 'class',
@@ -18,8 +17,7 @@ export default defineConfig({
         '-1': '-1',
       },
       colors: {
-        hh: 'var(--header-bg-color)',
-        primary: primaryColor, // 全局主色
+        primary: 'var(--primary-color)', // 全局主色
         link: 'var(--link-color)', // 链接色
         success: 'var(--success-color)', // 成功色
         warning: 'var(--warning-color)', // 警告色
@@ -37,8 +35,8 @@ export default defineConfig({
       },
       screens: {
         sm: '576px',
-        md: '768px',
-        lg: '992px',
+        md: '768px', // ipad 768*1024
+        lg: '992px', //
         xl: '1200px', //1280 * 720： 老式电脑的屏幕，目前很少见到，1366 * 768 ： 普通液晶显示器
         '2xl': '1600px', //1920 * 1080： 高清液晶显示器
         '3xl': '2000px', //2560 * 1440： 2K高清显示器

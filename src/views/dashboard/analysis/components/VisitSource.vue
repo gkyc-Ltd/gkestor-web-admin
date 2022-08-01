@@ -1,3 +1,11 @@
+<!--
+ * @Author: ypc
+ * @Date: 2022-07-18 11:13:00
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-08-01 16:02:40
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\views\dashboard\analysis\components\VisitSource.vue
+-->
 <template>
   <Card title="访问来源" :loading="loading" :bodyStyle="bodyStyle">
     <!-- <div class="flex w-full justify-around flex-wrap gap-2 h-max">
@@ -14,7 +22,7 @@
     <div
       class="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 3xl:grid-cols-4 gap-4"
     >
-      <div class="h-20 bg-hh last:bg-yellow-400" v-for="i in 9" :key="i"></div>
+      <div class="h-20 bg-primary last:bg-yellow-400" v-for="i in 9" :key="i"></div>
     </div>
   </Card>
 </template>

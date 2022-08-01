@@ -1,6 +1,30 @@
 import { generate } from '@ant-design/colors';
 
-export const primaryColor = '#0960bd';
+//主题配置
+export const THEME_VARIABLES = {
+  primaryColor: 'red', // 全局主色
+  successColor: '#55D187', // 成功色
+  warningColor: '#52c41a', // 警告色
+  errorColor: '#f5222d', // 错误色
+  borderColor: '#d9d9d9', // 边框色
+};
+
+// --primary-color: #1890ff; // 全局主色
+// --link-color: #1890ff; // 链接色
+// --success-color: #52c41a; // 成功色
+// --warning-color: #faad14; // 警告色
+// --error-color: #f5222d; // 错误色
+
+// --font-size-base: 14px; // 主字号
+// --heading-color: rgba(0, 0, 0, 0.85); // 标题色
+// --text-color: rgba(0, 0, 0, 0.65); // 主文本色
+// --text-color-secondary: rgba(0, 0, 0, 0.45); // 次文本色
+// --disabled-color: rgba(0, 0, 0, 0.25); // 失效色
+// --border-radius-base: 4px; // 组件/浮层圆角
+// --border-color-base: #d9d9d9; // 边框色
+// --box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15); // 浮层阴影
+
+export const primaryColor = THEME_VARIABLES.primaryColor;
 
 export const darkMode = 'light';
 
@@ -15,6 +39,7 @@ export interface GenerateColorsParams {
   color?: string;
 }
 
+// 获取 ant design 色系
 export function generateAntColors(color: string, theme: GenerateTheme = 'default') {
   return generate(color, {
     theme,

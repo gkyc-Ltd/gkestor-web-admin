@@ -1,3 +1,11 @@
+/*
+ * @Author: ypc
+ * @Date: 2022-07-18 11:13:00
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-08-01 16:23:24
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\logics\initAppConfig.ts
+ */
 /**
  * Application configuration
  */
@@ -17,7 +25,7 @@ import { useLocaleStore } from '/@/store/modules/locale';
 
 import { getCommonStoragePrefix, getStorageShortName } from '/@/utils/env';
 
-import { primaryColor } from '../../build/config/themeConfig';
+// import { primaryColor } from '../../build/config/themeConfig';
 import { Persistent } from '/@/utils/cache/persistent';
 import { deepMerge } from '/@/utils';
 import { ThemeEnum } from '/@/enums/appEnum';
@@ -38,7 +46,7 @@ export function initAppConfigStore() {
     menuSetting: { bgColor } = {},
   } = projCfg;
   try {
-    if (themeColor && themeColor !== primaryColor) {
+    if (themeColor) {
       changeTheme(themeColor);
     }
 
