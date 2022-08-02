@@ -1,5 +1,13 @@
+<!--
+ * @Author: ypc
+ * @Date: 2022-07-18 11:13:00
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-29 09:00:11
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\views\demo\table\Basic.vue
+-->
 <template>
-  <div class="p-4">
+  <div class="p-4" v-badge="'#0077A9'">
     <BasicTable
       title="基础示例"
       titleHelpMessage="温馨提醒"
