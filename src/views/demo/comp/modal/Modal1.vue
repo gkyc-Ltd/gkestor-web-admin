@@ -1,3 +1,11 @@
+<!--
+ * @Author: ypc
+ * @Date: 2022-07-18 11:13:00
+ * @LastEditors: ypc
+ * @LastEditTime: 2022-07-27 17:33:22
+ * @Description: file content
+ * @FilePath: \gkestor-web-admin\src\views\demo\comp\modal\Modal1.vue
+-->
 <template>
   <BasicModal
     v-bind="$attrs"
@@ -22,9 +30,8 @@
 </template>
 <script lang="ts">
   import { defineComponent, ref, watch } from 'vue';
-  import { BasicModal, useModalInner } from '/@/components/Modal';
+  import { useModalInner } from '/@/components/Modal';
   export default defineComponent({
-    components: { BasicModal },
     setup() {
       const loading = ref(true);
       const lines = ref(10);

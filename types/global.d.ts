@@ -7,6 +7,18 @@ import type {
   PropType as VuePropType,
 } from 'vue';
 
+import type {
+  FormSchema as ComponentFormSchema,
+  FormActionType as ComponentFormActionType,
+  FormProps as ComponentFormProps,
+} from '/@/components/Form/index';
+
+import type {
+  BasicColumn as ComponentBasicColumn,
+  TableActionType as ComponentTableActionType,
+  TableProps as ComponentTableProps,
+} from '/@/components/Table/src/types/table';
+
 declare global {
   const __APP_INFO__: {
     pkg: {
@@ -17,6 +29,29 @@ declare global {
     };
     lastBuildTime: string;
   };
+
+  interface BasicColumn extends ComponentBasicColumn {
+    __?: unknown;
+  }
+
+  interface TableActionType extends ComponentTableActionType {
+    __?: unknown;
+  }
+
+  interface TableProps extends ComponentTableProps {
+    __?: unknown;
+  }
+
+  interface FormSchema extends ComponentFormSchema {
+    __?: unknown;
+  }
+  interface FormActionType extends ComponentFormActionType {
+    __?: unknown;
+  }
+  interface FormProps extends ComponentFormProps {
+    __?: unknown;
+  }
+
   // declare interface Window {
   //   // Global vue app instance
   //   __APP__: App<Element>;

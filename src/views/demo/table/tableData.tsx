@@ -1,6 +1,3 @@
-import { FormProps, FormSchema } from '/@/components/Table';
-import { BasicColumn } from '/@/components/Table/src/types/table';
-
 export function getBasicColumns(): BasicColumn[] {
   return [
     {

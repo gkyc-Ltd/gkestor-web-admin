@@ -2,7 +2,7 @@
  * @Author: ypc
  * @Date: 2022-07-17 13:29:14
  * @LastEditors: ypc
- * @LastEditTime: 2022-07-26 17:33:15
+ * @LastEditTime: 2022-07-27 15:15:50
  * @Description: file content
  * @FilePath: \gkestor-web-admin\src\components\registerGlobComp.ts
  */
@@ -13,7 +13,25 @@ import { Empty } from './Custom/Empty';
 import CustomHeader from './Custom/CustomHeader';
 import { Input, Layout, Select, List, Tooltip, Spin, Checkbox, Radio } from 'ant-design-vue';
 
-const compList = [CustomHeader, Icon, Input, Layout, Select, List, Tooltip, Spin, Checkbox, Radio];
+import { BasicForm } from '/@/components/Form/index';
+import { BasicTable } from '/@/components/Table/index';
+import { BasicModal } from '/@/components/Modal/index';
+
+const compList = [
+  BasicForm,
+  BasicTable,
+  BasicModal,
+  CustomHeader,
+  Icon,
+  Input,
+  Layout,
+  Select,
+  List,
+  Tooltip,
+  Spin,
+  Checkbox,
+  Radio,
+];
 
 export function registerGlobComp(app: App) {
   compList.forEach((comp) => {
