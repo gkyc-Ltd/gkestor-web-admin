@@ -2,7 +2,7 @@
  * @Author: ypc
  * @Date: 2022-07-18 11:13:00
  * @LastEditors: ypc
- * @LastEditTime: 2022-08-01 16:23:24
+ * @LastEditTime: 2022-08-02 14:28:42
  * @Description: file content
  * @FilePath: \gkestor-web-admin\src\logics\initAppConfig.ts
  */
@@ -18,7 +18,7 @@ import { updateHeaderBgColor, updateSidebarBgColor } from '/@/logics/theme/updat
 import { updateColorWeak } from '/@/logics/theme/updateColorWeak';
 import { updateGrayMode } from '/@/logics/theme/updateGrayMode';
 import { updateDarkTheme } from '/@/logics/theme/dark';
-import { changeTheme } from '/@/logics/theme';
+import { changeTheme, initThemeVariables } from '/@/logics/theme';
 
 import { useAppStore } from '/@/store/modules/app';
 import { useLocaleStore } from '/@/store/modules/locale';
@@ -46,6 +46,7 @@ export function initAppConfigStore() {
     menuSetting: { bgColor } = {},
   } = projCfg;
   try {
+    initThemeVariables();
     if (themeColor) {
       changeTheme(themeColor);
     }

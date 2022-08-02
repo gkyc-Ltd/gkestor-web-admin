@@ -23,7 +23,7 @@ export function configThemePlugin(isBuild: boolean): Plugin[] {
   // 抽取出viteThemePlugin插件，下方会根据不同环境设置enforce
   const vite_theme_plugin = viteThemePlugin({
     resolveSelector: (s) => {
-      console.log(s);
+      // console.log(s);
       s = s.trim();
       switch (s) {
         case '.ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon':
