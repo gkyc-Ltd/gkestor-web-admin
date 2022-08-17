@@ -12,9 +12,9 @@ import { Icon } from './Icon';
 import { Empty } from './Custom/Empty';
 import CustomHeader from './Custom/CustomHeader';
 import { Input, Layout, Select, List, Tooltip, Spin, Checkbox, Radio } from 'ant-design-vue';
-import { DefineComponent } from '@vue/runtime-core';
+import { defineComponent } from 'vue';
 
-const compList: DefineComponent[] = [
+const compList: ReturnType<typeof defineComponent> = [
   CustomHeader,
   Icon,
   Input,
