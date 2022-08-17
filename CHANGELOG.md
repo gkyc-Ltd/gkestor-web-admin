@@ -1,6 +1,6 @@
 ## [2.8.0](https://github.com/anncwb/vue-vben-admin/compare/v2.7.2...v2.8.0) (2021-11-03)
 
-### Bug Fixes
+### Bug Fixes44
 
 - fixed token clear error ([9640484](https://github.com/anncwb/vue-vben-admin/commit/96404848955f84d57b88dd240ab3a57b7017103c))
 - improve type introduction, fix [#1196](https://github.com/anncwb/vue-vben-admin/issues/1196) ([2820d5a](https://github.com/anncwb/vue-vben-admin/commit/2820d5a627260bb8eddfcd25df1cd7d1196932e8))
