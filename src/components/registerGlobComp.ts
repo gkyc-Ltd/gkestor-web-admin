@@ -12,15 +12,9 @@ import { Icon } from './Icon';
 import { Empty } from './Custom/Empty';
 import CustomHeader from './Custom/CustomHeader';
 import { Input, Layout, Select, List, Tooltip, Spin, Checkbox, Radio } from 'ant-design-vue';
+import { DefineComponent } from '@vue/runtime-core';
 
-// import { BasicForm } from '/@/components/Form/index';
-// import { BasicTable } from '/@/components/Table/index';
-import { BasicModal } from '/@/components/Modal/index';
-
-const compList = [
-  // BasicForm,
-  // BasicTable,
-  BasicModal,
+const compList: DefineComponent[] = [
   CustomHeader,
   Icon,
   Input,
@@ -33,7 +27,14 @@ const compList = [
   Radio,
 ];
 
-export function registerGlobComp(app: App) {
+export async function registerGlobComp(app: App) {
+  // 解决全局组件国际无法使用问题，import写在外面会vben会先加载组件后加载国际化，所以import写在里面
+  const { BasicForm } = await import('/@/components/Form/index');
+  const { BasicModal } = await import('/@/components/Modal/index');
+  const { BasicTable } = await import('/@/components/Table/index');
+  compList.push(BasicForm);
+  compList.push(BasicModal);
+  compList.push(BasicTable);
   compList.forEach((comp) => {
     app.component(comp.name || comp.displayName, comp);
   });
