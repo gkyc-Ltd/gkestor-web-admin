@@ -68,7 +68,14 @@
     name: 'BasicForm',
     components: { FormItem, Form, Row, FormAction },
     props: basicProps,
-    emits: ['advanced-change', 'reset', 'submit', 'register', 'field-value-change'],
+    emits: [
+      'advanced-change',
+      'reset',
+      'submit',
+      'register',
+      'field-value-change',
+      'getSearchForm',
+    ],
     setup(props, { emit, attrs }) {
       const formModel = reactive<Recordable>({});
       const modalFn = useModalContext();
@@ -233,6 +240,7 @@
         () => formModel,
         useDebounceFn(() => {
           unref(getProps).submitOnChange && handleSubmit();
+          emit('getSearchForm', formModel);
         }, 300),
         { deep: true },
       );
