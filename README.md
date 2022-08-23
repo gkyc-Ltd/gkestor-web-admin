@@ -45,7 +45,8 @@ pnpm add -g pnpm
 | 组件       | 改动                                      |     |
 | ---------- | ----------------------------------------- | --- |
 | ApiSelect  | valueField 为'gke-JSON'时选项值为整个对象 |     |
-| BasicModal | title:false 隐藏头部                      |
+| BasicModal | title:false 隐藏头部                      |     |
+| BasicForm  | emits 新加@getSearchForm 方法             |     |
 
 ### 路由
 
