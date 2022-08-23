@@ -16,7 +16,7 @@
         <Button
           type="default"
           class="ml-2 !px-2.5"
-          preIcon="reset|svg"
+          preIcon="ant-design:reload-outlined"
           v-bind="getResetBtnOptions"
           @click="resetAction"
           v-if="showResetButton"
